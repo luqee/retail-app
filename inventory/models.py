@@ -38,6 +38,11 @@ class Outlet(models.Model):
 
 
 
+class ProductCategory(models.Model):
+    ...
+
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     sku = models.CharField(max_length=200)
@@ -47,11 +52,7 @@ class Product(models.Model):
 
 
 
-    
-
-
-class ProductCategory(models.Model):
-    ...
-
-class Products(models.Model):
-    ...
+class Transaction(models.Model):
+	quantity=models.IntegerField()
+	time=models.DateTimeField(auto_now=True)
+	product=models.ForeignKey(Product, on_delete=models.CASCADE, blank=False, null=False)
