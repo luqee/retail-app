@@ -1,14 +1,20 @@
 from django.db import models
 from django.utils import timezone
+from product.models import Product
 
-def user_directory_path(instance, filename):
-    return 'products/%Y/%m/%d/'.format(instance.id, filename)
 
 
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ('name',)
+
+
+    def __str__(self):
+        return self.name
 
 
     
@@ -36,23 +42,25 @@ class Outlet(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status =  models.CharField(max_length=12, choices=STATUS_CHOICES, default='deactivated')
 
+    class Meta:
+        ordering = ('name',)
 
 
-class ProductCategory(models.Model):
-    ...
-
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=200)
-    sku = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
+    def __str__(self):
+        return self.name
 
 
 
 class Transaction(models.Model):
-	quantity=models.IntegerField()
-	time=models.DateTimeField(auto_now=True)
-	product=models.ForeignKey(Product, on_delete=models.CASCADE, blank=False, null=False)
+    TYPE_CHOICES = (
+        ('in', 'Stock In'),
+        ('out', 'Stock Out'),
+    )
+    quantity=models.IntegerField()
+    time=models.DateTimeField(auto_now=True)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, blank=False, null=False)
+    outlet=models.ForeignKey(Outlet, on_delete=models.CASCADE, blank=False, null=False)
+    tran_type =  models.CharField(max_length=12, choices=TYPE_CHOICES, default='in')
+
+    class Meta:
+        ordering = ('-time',)
