@@ -1,9 +1,15 @@
 from django.db import models
 
 class Retailer(models.Model):
-    ...
+    name = models.CharField(max_length=200)
+    mobile = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+
+
+    
 
 class Outlet(models.Model):
+
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
@@ -21,7 +27,14 @@ class Outlet(models.Model):
 
 
 class Product(models.Model):
-    ...
+    name = models.CharField(max_length=200)
+    sku = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+
+
+
+    
 
 
 class ProductCategory(models.Model):
