@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from product.models import Product
+from django.contrib.auth.models import User
 
 
 class Retailer(models.Model):
@@ -24,10 +25,10 @@ class Outlet(models.Model):
         ('deactivated', 'Deactivated'),
     )
     retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
-    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='outlet')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    type = models.CharField(max_length=200)
+    outlet_type = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     county = models.CharField(max_length=200)
