@@ -8,7 +8,7 @@ from django_countries.fields import CountryField
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
-    country = CountryField()
+    email = models.EmailField(max_length=200)
     status = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
@@ -30,12 +30,11 @@ class Outlet(models.Model):
         ('deactivated', 'Deactivated'),
     )
     retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='outlet')
-    name = models.CharField(max_length=200)
+    outlet_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     outlet_type = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
+    country = CountryField()
     county = models.CharField(max_length=200)
     constituency = models.CharField(max_length=200)
     ward = models.CharField(max_length=200)
@@ -44,17 +43,19 @@ class Outlet(models.Model):
     outlet_code = models.CharField(max_length=200)
     outlet_person = models.CharField(max_length=200)
     number = models.CharField(max_length=200)
-    amenities = models.CharField(max_length=200)
+    amenities = models.TextField(max_length=200)
+    staff_recruiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='outlet')
+    status =  models.CharField(max_length=12, choices=STATUS_CHOICES, default='deactivated')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
-    status =  models.CharField(max_length=12, choices=STATUS_CHOICES, default='deactivated')
+ 
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('outlet_name',)
 
 
     def __str__(self):
-        return self.name
+        return self.outlet_name
 
 
 

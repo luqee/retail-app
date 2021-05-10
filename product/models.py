@@ -22,12 +22,25 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    UNIT_TYPE_KG = 'Kilogram'
+    UNIT_TYPE_GRAM = 'Gram'
+    UNIT_TYPE_LITRE = 'Litre'
+    UNIT_TYPE_QUANTITY = 'Quantity'
+
+    UNIT_TYPES = (
+        (UNIT_TYPE_KG, 'Kilogram'),
+        (UNIT_TYPE_GRAM, 'Gram'),
+        (UNIT_TYPE_LITRE, 'Litre'),
+        (UNIT_TYPE_QUANTITY, 'Quantity'),
+    )
+   
+    name = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=False, null=False)
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField(max_length=200)
     description = models.CharField(max_length=200, blank=True)
     country = models.CharField(max_length=200)
+    unit_type = models.CharField(choices=UNIT_TYPES, default=UNIT_TYPE_QUANTITY, blank=True, null=True, max_length=200)
     image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
     available = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
