@@ -2,17 +2,6 @@ from django.db import models
 from django.utils import timezone
 from product.models import Product
 
-class Agent(models.Model):
-    name = models.CharField(max_length=200)
-    mobile = models.CharField(max_length=200)
-    id_number = models.CharField(max_length=200)
-
-    class Meta:
-        ordering = ('name',)
-
-
-    def __str__(self):
-        return self.user.name
 
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
@@ -25,6 +14,9 @@ class Retailer(models.Model):
 
     def __str__(self):
         return self.user.name
+
+
+
 
 class Outlet(models.Model):
     STATUS_CHOICES = (
@@ -57,6 +49,8 @@ class Outlet(models.Model):
 
     def __str__(self):
         return self.name
+
+
 
 
 
