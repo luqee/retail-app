@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductCategory, Agent, Retailer, Outlet, Transaction
+from .models import Product, ProductCategory, User, Agent, Retailer, Outlet, Transaction
 
 admin.site.register(ProductCategory)
 
@@ -14,6 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('name', 'created')
 
+admin.site.register(User)
 admin.site.register(Retailer)
 admin.site.register(Outlet)
 admin.site.register(Transaction)

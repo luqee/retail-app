@@ -39,14 +39,18 @@ class Product(models.Model):
         return self.name
 
 class User(AbstractUser):
+    ANON = 0
+    RETAILER = 1
+    AGENT = 2
+    ADMIN = 3
     USER_TYPE_CHOICES = (
-        (0, 'anon'),
-        (1, 'retailer'),
-        (2, 'agent'),
-        (3, 'admin'),
+        (ANON, 'anon'),
+        (RETAILER, 'retailer'),
+        (AGENT, 'agent'),
+        (ADMIN, 'admin'),
     )
 
-    role = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=0)
+    role = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=ANON)
 
 class Agent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
