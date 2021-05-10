@@ -1,12 +1,7 @@
 from django.contrib import admin
-from .models import  Product, ProductCategory
-
-
+from .models import Product, ProductCategory, Agent, Retailer, Outlet, Transaction
 
 admin.site.register(ProductCategory)
-
-
-
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -18,3 +13,8 @@ class ProductAdmin(admin.ModelAdmin):
     # raw_id_fields = ('author',)
     date_hierarchy = 'created'
     ordering = ('name', 'created')
+
+admin.site.register(Retailer)
+admin.site.register(Outlet)
+admin.site.register(Transaction)
+admin.site.register(Agent)
