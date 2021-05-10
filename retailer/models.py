@@ -2,12 +2,17 @@ from django.db import models
 from django.utils import timezone
 from product.models import Product
 from django.contrib.auth.models import User
+from django_countries.fields import CountryField
 
 
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
+    country = CountryField()
+    status = models.BooleanField(default=True)
+    created = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now=True)
+
 
     class Meta:
         ordering = ('name',)

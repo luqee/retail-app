@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'retailer.apps.RetailerConfig',
     'product.apps.ProductConfig',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
