@@ -26,14 +26,17 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=False, null=False)
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, blank=True)
     country = models.CharField(max_length=200)
     image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
+    available = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
+    
 
     class Meta:
         ordering = ('name',)
+        index_together = (('id', 'slug'),)
 
     def __str__(self):
         return self.name
