@@ -9,7 +9,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name',  'slug', 'sku', 'image', 'description', 'available', 'created', 'updated')
+    list_display = ('name',  'slug', 'sku', 'unit_type', 'image', 'description', 'available', 'created', 'updated')
     list_filter = ('created', 'updated', 'name')
     list_editable = ['available']
     search_fields = ('name', 'category')

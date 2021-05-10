@@ -39,7 +39,6 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField(max_length=200)
     description = models.CharField(max_length=200, blank=True)
-    country = models.CharField(max_length=200)
     unit_type = models.CharField(choices=UNIT_TYPES, default=UNIT_TYPE_QUANTITY, blank=True, null=True, max_length=200)
     image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
     available = models.BooleanField(default=True)
