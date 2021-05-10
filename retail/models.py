@@ -1,75 +1,26 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
-
-class ProductCategory(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-    created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(auto_now=True)
-
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
-
-    def __str__(self):
-        return self.name
-
-def user_directory_path(instance, filename):
-    return 'products/%Y/%m/%d/'.format(instance.id, filename)
-
-class Product(models.Model):
-    name = models.CharField(max_length=200)
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=False, null=False)
-    slug = models.SlugField(max_length=200, unique=True)
-    sku = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    country = models.CharField(max_length=200)
-    image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
-    created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('name',)
-
-
-    def __str__(self):
-        return self.name
-
-class User(AbstractUser):
-    ANON = 0
-    RETAILER = 1
-    AGENT = 2
-    ADMIN = 3
-    USER_TYPE_CHOICES = (
-        (ANON, 'anon'),
-        (RETAILER, 'retailer'),
-        (AGENT, 'agent'),
-        (ADMIN, 'admin'),
-    )
-
-    role = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=ANON)
+from product.models import Product
 
 class Agent(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
+    id_number = models.CharField(max_length=200)
 
-    # class Meta:
-    #     ordering = ('name',)
+    class Meta:
+        ordering = ('name',)
 
 
     def __str__(self):
         return self.user.name
 
 class Retailer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
 
-    # class Meta:
-    #     ordering = ('name',)
+    class Meta:
+        ordering = ('name',)
 
 
     def __str__(self):
@@ -81,6 +32,7 @@ class Outlet(models.Model):
         ('deactivated', 'Deactivated'),
     )
     retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     type = models.CharField(max_length=200)
