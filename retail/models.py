@@ -2,7 +2,17 @@ from django.db import models
 from django.utils import timezone
 from product.models import Product
 
+class Agent(models.Model):
+    name = models.CharField(max_length=200)
+    mobile = models.CharField(max_length=200)
+    id_number = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ('name',)
+
+
+    def __str__(self):
+        return self.user.name
 
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
@@ -14,16 +24,15 @@ class Retailer(models.Model):
 
 
     def __str__(self):
-        return self.name
-
-
-    
+        return self.user.name
 
 class Outlet(models.Model):
     STATUS_CHOICES = (
         ('active', 'Active'),
         ('deactivated', 'Deactivated'),
     )
+    retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     type = models.CharField(max_length=200)

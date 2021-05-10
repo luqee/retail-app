@@ -1,14 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
-
-
-
 def user_directory_path(instance, filename):
     return 'products/%Y/%m/%d/'.format(instance.id, filename)
-
-
-
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=200)
@@ -27,7 +21,6 @@ class ProductCategory(models.Model):
 
 
 
-
 class Product(models.Model):
     name = models.CharField(max_length=200)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=False, null=False)
@@ -41,7 +34,6 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
-
 
     def __str__(self):
         return self.name
