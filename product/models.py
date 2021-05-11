@@ -41,9 +41,10 @@ class Product(models.Model):
     )
    
     name = models.CharField(max_length=200, unique=True)
+    brand_name = models.CharField(max_length=200, blank=True, null=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, blank=False, null=False)
     slug = models.SlugField(max_length=200, unique=True)
-    sku = models.CharField(max_length=200)
+    bar_code = models.CharField(max_length=13, unique=True, blank=True, null=True)
     description = models.CharField(max_length=200, blank=True)
     unit_type = models.CharField(choices=UNIT_TYPES, default=UNIT_TYPE_QUANTITY, blank=True, null=True, max_length=200)
     image = models.ImageField( upload_to=user_directory_path, default='products/default.jpg')
