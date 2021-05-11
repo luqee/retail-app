@@ -3,7 +3,7 @@ from django.utils import timezone
 from product.models import Product
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
-
+from mptt.models import MPTTModel, TreeForeignKey
 
 class Retailer(models.Model):
     name = models.CharField(max_length=200)
@@ -19,8 +19,19 @@ class Retailer(models.Model):
 
 
     def __str__(self):
-        return self.user.name
+        return self.name
 
+
+
+class OutletType(MPTTModel):
+    name = models.CharField(max_length=200)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    slug = models.SlugField(max_length=200, unique=True)
+    created = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
 
 
 
@@ -32,7 +43,7 @@ class Outlet(models.Model):
     retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
     outlet_name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    outlet_type = models.CharField(max_length=200)
+    outlet_type = models.ForeignKey(OutletType, on_delete=models.CASCADE, blank=False, null=False, related_name='outlet')
     address = models.CharField(max_length=200)
     country = CountryField()
     county = models.CharField(max_length=200)

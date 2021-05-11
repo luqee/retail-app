@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Retailer, Outlet, Transaction
-
+from .models import Retailer, Outlet, Transaction, OutletType
+from django_mptt_admin.admin import DjangoMpttAdmin
 
 admin.site.register(Transaction)
 
@@ -13,6 +13,7 @@ class RetailerAdmin(admin.ModelAdmin):
     list_editable = ['status']
     search_fields = ('name', 'status')
     date_hierarchy = 'created'
+    
     ordering = ('status', 'created')
 
 
@@ -25,7 +26,10 @@ class OutletAdmin(admin.ModelAdmin):
     search_fields = ('outlet_name', 'outlet_type')
     date_hierarchy = 'created'
     ordering = ('outlet_name', 'created')
+    prepopulated_fields = {'slug': ('outlet_name',)}
 
 
-
-
+@admin.register(OutletType)
+class OutletTypeAdmin(DjangoMpttAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
