@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, Brand
 from django_mptt_admin.admin import DjangoMpttAdmin
 
 
@@ -18,3 +18,11 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     date_hierarchy = 'created'
     ordering = ('name', 'created')
+
+
+
+
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ['brand_name', 'created']
+    prepopulated_fields = {'slug': ('brand_name',)}

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'retailer.apps.RetailerConfig',
     'product.apps.ProductConfig',
+    'account.apps.AccountConfig',
     'django_countries',
     'mptt',
     'django_mptt_admin',
