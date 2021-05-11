@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'retailer.apps.RetailerConfig',
     'product.apps.ProductConfig',
     'django_countries',
+    'mptt',
 ]
 
 MIDDLEWARE = [
