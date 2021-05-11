@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'django_countries',
     'mptt',
+    'django_mptt_admin',
+    
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,11 @@
 from django.contrib import admin
 from .models import Product, ProductCategory
+from django_mptt_admin.admin import DjangoMpttAdmin
+
 
 # Register your models here.
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(DjangoMpttAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 

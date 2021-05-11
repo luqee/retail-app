@@ -1,20 +1,26 @@
 from django.db import models
 from django.utils import timezone
+from mptt.models import MPTTModel, TreeForeignKey
+
 
 def user_directory_path(instance, filename):
     return 'products/%Y/%m/%d/'.format(instance.id, filename)
 
-class ProductCategory(models.Model):
+class ProductCategory(MPTTModel):
     name = models.CharField(max_length=200)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     slug = models.SlugField(max_length=200, unique=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     class Meta:
-        ordering = ('name',)
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+  
 
     def __str__(self):
         return self.name
