@@ -33,11 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'retailer.apps.RetailerConfig',
-    'product.apps.ProductConfig',
-    'account.apps.AccountConfig',
+    'retail.apps.RetailConfig',
     'django_countries',
-    'mptt',
-    'django_mptt_admin',
     
 ]
 
@@ -131,5 +128,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'retail.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
