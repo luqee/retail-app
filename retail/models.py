@@ -4,7 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 
 class User(AbstractUser):
-    pass
+    # recruiter = models.OneToOneField('Recruiter', on_delete=models.CASCADE, null=True, related_name='user')
+    # retailer = models.OneToOneField('Retailer', on_delete=models.CASCADE, null=True, related_name='user')
+    is_recruiter = models.BooleanField(default=False)
+    is_retailer = models.BooleanField(default=False)
 
 class Recruiter(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)

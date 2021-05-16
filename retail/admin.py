@@ -10,9 +10,9 @@ from django.contrib.auth.admin import UserAdmin
 # class RetailerUserInline(admin.StackedInline):
 #     model = AppUser
 
-# @admin.register(AppUser)
-# class RecruiterAdmin(admin.ModelAdmin):
-#     inlines=[RecruiterUserInline]
+@admin.register(AppUser)
+class UserAdmin(UserAdmin):
+    pass
 
 @admin.register(Recruiter)
 class RecruiterAdmin(admin.ModelAdmin):
