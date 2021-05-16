@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 class RetailerCreateForm(UserCreationForm):
-
+    mobile = forms.CharField()
     class Meta(UserCreationForm.Meta):
         model = User
     
@@ -13,6 +13,5 @@ class RetailerCreateForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_retailer = True
         user.save()
-        retailer = Retailer.objects.create(user=user)
-        retailer.mobile = self.cleaned_data.get('mobile')
+        Retailer.objects.create(user=user, mobile=self.cleaned_data.get('mobile'))
         return user

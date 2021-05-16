@@ -51,8 +51,8 @@ class OutletAdmin(admin.ModelAdmin):
     # search_fields = ('outlet_name', 'outlet_type')
     # date_hierarchy = 'created'
     # ordering = ('outlet_name', 'created')
-    # prepopulated_fields = {'slug': ('outlet_name',)}
-    pass
+    prepopulated_fields = {'slug': ('name',)}
+    # pass
 
 @admin.register(OutletType)
 class OutletTypeAdmin(admin.ModelAdmin):

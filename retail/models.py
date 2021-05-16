@@ -54,8 +54,8 @@ class Outlet(models.Model):
         ('active', 'Active'),
         ('deactivated', 'Deactivated'),
     )
-    retailer = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
-    outlet_name = models.CharField(max_length=200)
+    owner = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
+    name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     outlet_type = models.ForeignKey(OutletType, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
     address = models.CharField(max_length=200)
@@ -69,18 +69,18 @@ class Outlet(models.Model):
     outlet_person = models.CharField(max_length=200)
     number = models.CharField(max_length=200)
     amenities = models.TextField(max_length=200)
-    recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE, related_name='outlets')
+    registered_by = models.ForeignKey(Recruiter, on_delete=models.CASCADE, related_name='outlets')
     status =  models.CharField(max_length=12, choices=STATUS_CHOICES, default='deactivated')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
  
 
     class Meta:
-        ordering = ('outlet_name',)
+        ordering = ('name',)
 
 
     def __str__(self):
-        return self.outlet_name
+        return self.name
 
 class Brand(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True)
