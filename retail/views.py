@@ -42,7 +42,7 @@ class CreateOuteltView(CreateView):
     success_url = '/recruiter/'
 
     def form_valid(self, form):
-        form.instance.slug = slugify(form.fields['name'])
+        form.instance.slug = slugify(form.cleaned_data.get('name'))
         form.instance.registered_by = self.request.user.recruiter
         return super().form_valid(form)
         

@@ -15,7 +15,6 @@ class GetUserView(APIView):
         return Response({"user": data})
 
 class OutletsView(APIView):
-
     def get(self, request):
         outlets = Outlet.objects.all()
         data = OutletSerializer(outlets, many=True).data
