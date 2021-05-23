@@ -1,9 +1,11 @@
+from django.http import request
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
-from retail.models import User
-from retail.forms import RetailerCreateForm
+from retail.models import Outlet, Retailer, User
+from retail.forms import OutletForm, RetailerCreateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils.text import slugify
 
 def index(request):
     return render(request, 'retail/index.html')
@@ -28,9 +30,20 @@ class RetailerCreateView(CreateView):
     
     def form_valid(self, form):
         user = form.save()
+        Retailer.objects.create(user=user, mobile=form.cleaned_data.get('mobile'), registered_by=self.request.user.recruiter)
         return redirect('recruiter')
 
 # Route to create Outlet
-def create(request):
-    return render(request, 'retail/recruiter/outlet.html')
+@method_decorator([login_required,], name='dispatch')
+class CreateOuteltView(CreateView):
+    model = Outlet
+    form_class = OutletForm
+    template_name = 'retail/recruiter/outlet.html'
+    success_url = '/recruiter/'
+
+    def form_valid(self, form):
+        form.instance.slug = slugify(form.fields['name'])
+        form.instance.registered_by = self.request.user.recruiter
+        return super().form_valid(form)
+        
 

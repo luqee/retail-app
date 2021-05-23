@@ -21,12 +21,13 @@ class Recruiter(models.Model):
     #     ordering = ('name',)
 
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.user.username
 
 class Retailer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     mobile = models.CharField(max_length=200)
+    registered_by = models.ForeignKey(Recruiter, on_delete=models.CASCADE, blank=False, null=False, related_name='retailers')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 
@@ -35,8 +36,8 @@ class Retailer(models.Model):
     #     ordering = ('name',)
 
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.user.username
 
 class OutletType(models.Model):
     name = models.CharField(max_length=200)
