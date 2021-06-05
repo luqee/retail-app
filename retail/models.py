@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
+from places.fields import PlacesField
 
 class User(AbstractUser):
     # recruiter = models.OneToOneField('Recruiter', on_delete=models.CASCADE, null=True, related_name='user')
@@ -55,7 +56,7 @@ class Outlet(models.Model):
         ('active', 'Active'),
         ('deactivated', 'Deactivated'),
     )
-    owner = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
+    owner = models.OneToOneField(Retailer, on_delete=models.CASCADE, blank=False, null=False)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     outlet_type = models.ForeignKey(OutletType, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
@@ -65,7 +66,9 @@ class Outlet(models.Model):
     constituency = models.CharField(max_length=200)
     ward = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
-    gps_coordinates = models.CharField(max_length=200)
+    location = PlacesField()
+    # latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    # longitude = models.DecimalField(max_digits=9, decimal_places=6)
     outlet_code = models.CharField(max_length=200)
     outlet_person = models.CharField(max_length=200)
     number = models.CharField(max_length=200)

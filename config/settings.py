@@ -20,7 +20,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.192', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_countries',
     'rest_framework',
     'rest_framework.authtoken',
+    'places',
     
 ]
 
@@ -139,3 +140,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+PLACES_MAPS_API_KEY='AIzaSyAbBJjzYLumJC82DcrpJ2YcZMYTfzg46P8'
+PLACES_MAP_WIDGET_HEIGHT=480
+PLACES_MAP_OPTIONS='{"center": { "lat": -1.286389, "lng": 36.817223 }, "zoom": 10}'
+PLACES_MARKER_OPTIONS='{"draggable": true}'

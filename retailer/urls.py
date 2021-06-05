@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TransactionsList, GetUserView, OutletsView
+from .views import SearchView, TransactionsList, GetUserView, OutletsView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('transactions/', TransactionsList.as_view(), name='trans_list'),
     path('outlets/', OutletsView.as_view(), name='outlet_list'),
     path('user/', GetUserView.as_view(), name='get_user'),
+    path('products/search/', SearchView.as_view(), name='search_product'),
 ]

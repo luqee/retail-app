@@ -28,7 +28,7 @@ class OutletForm(forms.ModelForm):
             'city',
             'ward',
             'constituency',
-            'gps_coordinates',
+            'location',
             'number',
             'amenities',
             'outlet_code',
