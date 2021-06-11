@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class RetailerSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Retailer
         fields= '__all__'

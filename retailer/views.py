@@ -1,31 +1,46 @@
-from retail.models import Product, User
+from retailer.models import Transaction
 from rest_framework.response import Response
-from rest_framework import generics, serializers, status
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Transaction, Outlet
-from .serializers import ProductSerializer, TransactionSerializer, OutletSerializer, UserSerializer
-
-# Create your views here.
+from retail.models import Product
+from .serializers import ProductSerializer, RetailerSerializer, TransactionSerializer, OutletSerializer
 
 class GetUserView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
-        user = User.objects.get(id=1)
-        data = UserSerializer(user).data
-        return Response({"user": data})
+        user = request.user
+        data = RetailerSerializer(user.retailer).data
+        return Response({"retailer": data})
 
-class OutletsView(APIView):
+class OutletView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
-        outlets = Outlet.objects.all()
-        data = OutletSerializer(outlets, many=True).data
+        user = request.user
+        outlet = user.retailer.outlet
+        data = OutletSerializer(outlet).data
         return Response(data)
 
 # View list of all transactions
-class TransactionsList(generics.ListCreateAPIView):
-    queryset = Transaction.objects.all()[:20]
+class TransactionsList(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
+    
+    def get_queryset(self):
+        user = self.request.user
+        return user.retailer.outlet.transactions.all()
+    
+    def post(self, request):
+        user = request.user
+        outlet = user.retailer.outlet
+        product = Product.objects.get(pk=request.data['product'])
+        transaction = Transaction.objects.create(outlet=outlet, product=product, quantity=request.data['quantity'], tran_type=request.data['tran_type'])
+        data = TransactionSerializer(transaction).data
+        return Response(data)
 
 class SearchView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         barcode = request.GET.get('q', '')
         product = Product.objects.filter(bar_code__icontains=barcode).first()
