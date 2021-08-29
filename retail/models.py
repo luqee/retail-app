@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from django_countries.fields import CountryField
 from places.fields import PlacesField
 
 class User(AbstractUser):
@@ -56,23 +55,14 @@ class Outlet(models.Model):
         ('active', 'Active'),
         ('deactivated', 'Deactivated'),
     )
-    owner = models.OneToOneField(Retailer, on_delete=models.CASCADE, blank=False, null=False)
+    owner = models.ForeignKey(Retailer, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     outlet_type = models.ForeignKey(OutletType, on_delete=models.CASCADE, blank=False, null=False, related_name='outlets')
-    address = models.CharField(max_length=200)
-    country = CountryField()
-    county = models.CharField(max_length=200)
-    constituency = models.CharField(max_length=200)
-    ward = models.CharField(max_length=200)
-    city = models.CharField(max_length=200)
     location = PlacesField()
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    outlet_code = models.CharField(max_length=200)
-    outlet_person = models.CharField(max_length=200)
     number = models.CharField(max_length=200)
-    amenities = models.TextField(max_length=200)
     registered_by = models.ForeignKey(Recruiter, on_delete=models.CASCADE, related_name='outlets')
     status =  models.CharField(max_length=12, choices=STATUS_CHOICES, default='deactivated')
     created = models.DateTimeField(default=timezone.now)
@@ -126,6 +116,7 @@ def user_directory_path(instance, filename):
 
 
 class Product(models.Model):
+    #todo sort this 
     UNIT_TYPE_KG = 'Kilogram'
     UNIT_TYPE_GRAM = 'Gram'
     UNIT_TYPE_LITRE = 'Litre'

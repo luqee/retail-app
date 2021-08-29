@@ -20,7 +20,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['192.168.43.192', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.43.192', '127.0.0.1', '192.168.42.212']
 
 
 # Application definition
@@ -146,7 +146,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-PLACES_MAPS_API_KEY='AIzaSyAbBJjzYLumJC82DcrpJ2YcZMYTfzg46P8'
+PLACES_MAPS_API_KEY=config('MAPS_KEY')
 PLACES_MAP_WIDGET_HEIGHT=480
 PLACES_MAP_OPTIONS='{"center": { "lat": -1.286389, "lng": 36.817223 }, "zoom": 10}'
 PLACES_MARKER_OPTIONS='{"draggable": true}'
