@@ -4,7 +4,7 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
-from retail.models import Product
+from retail.models import Outlet, Product
 from .serializers import ProductSerializer, RetailerSerializer, TransactionSerializer, OutletSerializer
 
 class GetUserView(APIView):
@@ -18,8 +18,8 @@ class OutletView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
-        outlet = user.retailer.outlet
-        data = OutletSerializer(outlet).data
+        outlets = user.retailer.outlets
+        data = OutletSerializer(outlets, many=True).data
         return Response(data)
 
 # View list of all transactions
@@ -29,11 +29,12 @@ class TransactionsList(ListCreateAPIView):
     
     def get_queryset(self):
         user = self.request.user
-        return user.retailer.outlet.transactions.all()
+        transactions = Transaction.objects.filter(outlet__owner=user.retailer).all()
+        return transactions
     
     def post(self, request):
         user = request.user
-        outlet = user.retailer.outlet
+        outlet = Outlet.objects.get(pk=request.data['outlet'])
         product = Product.objects.get(pk=request.data['product'])
         transaction = Transaction.objects.create(outlet=outlet, product=product, quantity=request.data['quantity'], tran_type=request.data['tran_type'])
         data = TransactionSerializer(transaction).data

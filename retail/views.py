@@ -43,6 +43,7 @@ class CreateOuteltView(CreateView):
     def form_valid(self, form):
         form.instance.slug = slugify(form.cleaned_data.get('name'))
         form.instance.registered_by = self.request.user.recruiter
+        form.instance.location = self.request.POST['location_0']
         form.instance.latitude = self.request.POST['location_1']
         form.instance.longitude = self.request.POST['location_2']
         return super().form_valid(form)
