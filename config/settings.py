@@ -20,7 +20,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['192.168.43.192', '127.0.0.1', '192.168.42.212']
+ALLOWED_HOSTS = ['192.168.43.192', '127.0.0.1', '192.168.42.119']
 
 
 # Application definition
@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'retailer.apps.RetailerConfig',
     'retail.apps.RetailConfig',
-    'django_countries',
     'rest_framework',
     'rest_framework.authtoken',
     'places',
